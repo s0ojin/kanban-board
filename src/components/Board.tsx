@@ -1,5 +1,8 @@
 import { Droppable } from "react-beautiful-dnd";
+import { useForm } from "react-hook-form";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import { ITodo, toDoState } from "../atoms";
 import DraggableCard from "./DraggableCard";
 
 const Wrapper = styled.div`
@@ -26,8 +29,21 @@ const DroppableArea = styled.div<IDroppableAreaProps>`
   padding: 20px;
 `;
 
+const Form = styled.form`
+  display: flex;
+  justify-content: center;
+  input {
+    width: 90%;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    text-align: center;
+
+  }
+`;
+
 interface IBoardProps {
-  toDos: string[];
+  toDos: ITodo[];
   boardId: string;
 }
 
@@ -36,10 +52,32 @@ interface IDroppableAreaProps {
   isDraggingFromThis: boolean;
 }
 
+interface IForm {
+  toDo: string;
+}
+
 function Board({toDos, boardId}:IBoardProps) {
+  const { register, setValue:setForm, handleSubmit } = useForm<IForm>();
+  const setTodos = useSetRecoilState(toDoState);
+  const onValid = ({toDo}:IForm) => {
+    const newTodo = {
+      id:Date.now(),
+      text:toDo
+    }
+    setTodos((allBoards) => {
+      return {
+        ...allBoards,
+        [boardId] : [...allBoards[boardId], newTodo]
+      }
+    })
+    setForm("toDo", "")
+  }
   return(    
     <Wrapper>
-      <Title>{boardId}</Title>      
+      <Title>{boardId}</Title>
+      <Form onSubmit={handleSubmit(onValid)}>
+        <input {...register("toDo", {required:true})} type="text" placeholder={`add task on ${boardId}`} />
+      </Form>
       <Droppable droppableId={boardId}>
         {(provided, snapshot)=>
           <DroppableArea 
@@ -49,7 +87,7 @@ function Board({toDos, boardId}:IBoardProps) {
             {...provided.droppableProps}
           >
               {toDos.map((toDo, index) => (
-                <DraggableCard key={toDo} toDo={toDo} index={index} />
+                <DraggableCard key={toDo.id} toDoId={toDo.id} toDoText={toDo.text} index={index} />
                 )
               )}
               {provided.placeholder}
