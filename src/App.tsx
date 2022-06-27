@@ -3,14 +3,15 @@ import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { toDoState } from "./atoms";
 import Board from "./components/Board";
+import TrashCan from "./components/TrashCan";
 
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
   margin: 0 auto;
   justify-content: center;
-  height: 100vh;
   align-items: center;
+  height: 100vh;
 `;
 
 const Boards = styled.div`
@@ -27,9 +28,15 @@ function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
   const onDragEnd = (info:DropResult) => {
     const {destination, source} = info;
-    if( !destination) return;
-    if( destination.droppableId === source.droppableId )
-    setToDos((allBoards)=>{
+    if( !destination ) return;
+    if( destination.droppableId === "trashcan" )
+      setToDos((allBoards) => {
+        const boardCopy = [...allBoards[source.droppableId]];
+        boardCopy.splice(source.index, 1);
+        return { ...allBoards, [source.droppableId]: boardCopy };
+      });
+    else if( destination.droppableId === source.droppableId )
+      setToDos((allBoards)=>{
         const boardCopy = [...allBoards[source.droppableId]];
         const taskObj = boardCopy[source.index];
         boardCopy.splice(source.index, 1);
@@ -39,7 +46,7 @@ function App() {
           [source.droppableId] : boardCopy
         };
     })
-    if( destination.droppableId !== source.droppableId )
+    else if( destination.droppableId !== source.droppableId )
       setToDos((allBoards)=>{
         const sourceBoard = [...allBoards[source.droppableId]];
         const taskObj = sourceBoard[source.index];
@@ -59,6 +66,7 @@ function App() {
         <Boards>
           {Object.keys(toDos).map(boardId => <Board boardId={boardId} toDos={toDos[boardId]} key={boardId} />)}
         </Boards>
+        <TrashCan />
       </Wrapper>
     </DragDropContext>
   )

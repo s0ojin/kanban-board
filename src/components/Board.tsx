@@ -85,12 +85,12 @@ function Board({toDos, boardId}:IBoardProps) {
             isDraggingFromThis={Boolean(snapshot.draggingFromThisWith)}
             ref={provided.innerRef}
             {...provided.droppableProps}
-          >
+            >
               {toDos.map((toDo, index) => (
                 <DraggableCard key={toDo.id} toDoId={toDo.id} toDoText={toDo.text} index={index} />
                 )
-              )}
-              {provided.placeholder}
+                )}
+                {provided.placeholder}
           </DroppableArea>
         }
       </Droppable>
