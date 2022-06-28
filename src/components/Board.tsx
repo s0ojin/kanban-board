@@ -1,6 +1,6 @@
 import { Droppable } from "react-beautiful-dnd";
 import { useForm } from "react-hook-form";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { ITodo, toDoState } from "../atoms";
 import DraggableCard from "./DraggableCard";
@@ -67,7 +67,7 @@ function Board({toDos, boardId}:IBoardProps) {
     setTodos((allBoards) => {
       return {
         ...allBoards,
-        [boardId] : [...allBoards[boardId], newTodo]
+        [boardId] : [...allBoards[boardId], newTodo],
       }
     })
     setForm("toDo", "")
