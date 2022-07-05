@@ -1,5 +1,5 @@
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { toDoState } from "./atoms";
 import Board from "./components/Board";
@@ -29,13 +29,23 @@ function App() {
   const onDragEnd = (info:DropResult) => {
     const {destination, source} = info;
     if( !destination ) return;
-    if( destination.droppableId === "trashcan" )
+    if (source.droppableId === 'boards') {
+      setToDos((allBoards)=>{
+        const Copy = Object.entries(allBoards)
+        const movingBoard = Copy[source.index]
+        Copy.splice(source.index, 1)
+        Copy.splice(destination.index, 0 , movingBoard)
+        return Object.fromEntries(Copy)
+      })
+    }
+    else if( destination.droppableId === "trashcan" ) {
       setToDos((allBoards) => {
         const boardCopy = [...allBoards[source.droppableId]];
         boardCopy.splice(source.index, 1);
         return { ...allBoards, [source.droppableId]: boardCopy };
-      });
-    else if( destination.droppableId === source.droppableId )
+      })
+    }
+    else if( destination.droppableId === source.droppableId ) {
       setToDos((allBoards)=>{
         const boardCopy = [...allBoards[source.droppableId]];
         const taskObj = boardCopy[source.index];
@@ -45,8 +55,9 @@ function App() {
           ...allBoards,
           [source.droppableId] : boardCopy
         };
-    })
-    else if( destination.droppableId !== source.droppableId )
+      })
+    }
+    else if( destination.droppableId !== source.droppableId ) {
       setToDos((allBoards)=>{
         const sourceBoard = [...allBoards[source.droppableId]];
         const taskObj = sourceBoard[source.index];
@@ -59,20 +70,25 @@ function App() {
           [destination.droppableId] : destinationBoard
         }
       })
+    }
   }
   return(
     <DragDropContext onDragEnd={onDragEnd}>
       <Wrapper>
-        <Droppable droppableId="boards" direction="horizontal" type="board">
+        <Droppable
+          droppableId="boards"
+          direction="horizontal"
+          type="board"
+        >
           {(provided) =>
             <Boards
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
               {Object.keys(toDos).map((boardId, index) => <Board boardId={boardId} toDos={toDos[boardId]} key={boardId} index={index} />)}
+              {provided.placeholder}
             </Boards>
           }
-
         </Droppable>
         <TrashCan />
       </Wrapper>

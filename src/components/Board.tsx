@@ -38,7 +38,6 @@ const Form = styled.form`
     border-radius: 5px;
     padding: 5px;
     text-align: center;
-
   }
 `;
 
@@ -74,7 +73,7 @@ function Board({toDos, boardId, index}:IBoardProps) {
     setForm("toDo", "")
   }
   return( 
-    <Draggable draggableId={boardId} index={index}>
+    <Draggable key={boardId} draggableId={boardId} index={index}>
       {(provided) => 
         <Wrapper 
           ref={provided.innerRef}
