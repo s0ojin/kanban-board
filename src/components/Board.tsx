@@ -41,6 +41,8 @@ const Form = styled.form`
   }
 `;
 
+const DelBtn = styled.button``;
+
 interface IBoardProps {
   toDos: ITodo[];
   boardId: string;
@@ -72,6 +74,15 @@ function Board({toDos, boardId, index}:IBoardProps) {
     })
     setForm("toDo", "")
   }
+  const onDeleteHandler = (boardId:string) => {
+    setTodos((allBoards) => {
+      const boardList = {...allBoards};
+      //object에서 item삭제 delete object[key]
+      delete boardList[boardId]
+      return boardList;
+    })
+  }
+
   return( 
     <Draggable key={boardId} draggableId={boardId} index={index}>
       {(provided) => 
@@ -80,6 +91,7 @@ function Board({toDos, boardId, index}:IBoardProps) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
+          <DelBtn onClick={() => onDeleteHandler(boardId)}/>
           <Title>{boardId}</Title>
           <Form onSubmit={handleSubmit(onValid)}>
             <input {...register("toDo", {required:true})} type="text" placeholder={`add task on ${boardId}`} />

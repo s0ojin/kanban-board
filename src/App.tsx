@@ -3,10 +3,12 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { toDoState } from "./atoms";
 import Board from "./components/Board";
+import CreateBoard from "./components/CreatBoard";
 import TrashCan from "./components/TrashCan";
 
 const Wrapper = styled.div`
   display: flex;
+  flex-direction: column;
   width: 100%;
   margin: 0 auto;
   justify-content: center;
@@ -75,6 +77,7 @@ function App() {
   return(
     <DragDropContext onDragEnd={onDragEnd}>
       <Wrapper>
+        <CreateBoard />
         <Droppable
           droppableId="boards"
           direction="horizontal"

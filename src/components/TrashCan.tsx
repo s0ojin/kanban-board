@@ -12,9 +12,10 @@ const TrashCanWrapper = styled.div<ITrashCanWrapperProps>`
   justify-content: center;
   align-items: center;
   background-color: white;
-  width: ${(props)=>props.isDraggingOver ? "60px" : "50px"};
-  height: ${(props)=>props.isDraggingOver ? "60px" : "50px"};
-  border-radius: ${(props)=>props.isDraggingOver ? "30px" : "25px"};
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  transform: ${(props)=>props.isDraggingOver ? "scale(1.2)" : "none"};
   svg{
     path{
       fill: ${(props)=>props.theme.bgColor};
