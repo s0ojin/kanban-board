@@ -1,7 +1,24 @@
 import { FormEvent, useState } from "react";
 import { useSetRecoilState } from "recoil";
+import styled from "styled-components";
 import { toDoState } from "../atoms";
 
+
+const Form = styled.form`
+  input{
+    height: 30px;
+    width: 200px;
+    border-style: none;
+    border-radius: 15px;
+    border: solid ${(props)=>props.theme.boardColor} 2px;
+    background-color: transparent;
+    padding: 0px 10px;
+    ::placeholder{
+      color: ${(props)=>props.theme.boardColor};
+      text-align: center;
+    }
+  }
+`;
 
 function CreateBoard() {
   const [input, setInput] = useState("");
@@ -20,9 +37,9 @@ function CreateBoard() {
     setInput(event.currentTarget.value)
   }
   return(
-    <form onSubmit={onSubmit}>
+    <Form onSubmit={onSubmit}>
       <input value={input} onChange={onChange} placeholder="add board" />
-    </form>
+    </Form>
   )
 }
 

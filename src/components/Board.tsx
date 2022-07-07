@@ -8,7 +8,7 @@ import DraggableCard from "./DraggableCard";
 const Wrapper = styled.div`
   width:300px;
   padding: 20px 0px;
-  padding-top: 20px; 
+  padding-top: 0px;
   background-color: ${(props) => props.theme.boardColor};
   border-radius: 5px;
   min-height: 300px;
@@ -41,7 +41,15 @@ const Form = styled.form`
   }
 `;
 
-const DelBtn = styled.button``;
+const DelBtn = styled.button`
+  align-self: end;
+  margin-right: 5px;
+  margin-top: 5px;
+  font-size: 18px;
+  background-color: transparent;
+  border-style: none;
+  color: #636e72;
+  `;
 
 interface IBoardProps {
   toDos: ITodo[];
@@ -91,7 +99,7 @@ function Board({toDos, boardId, index}:IBoardProps) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <DelBtn onClick={() => onDeleteHandler(boardId)}/>
+          <DelBtn onClick={() => onDeleteHandler(boardId)}>&#120;</DelBtn>
           <Title>{boardId}</Title>
           <Form onSubmit={handleSubmit(onValid)}>
             <input {...register("toDo", {required:true})} type="text" placeholder={`add task on ${boardId}`} />
