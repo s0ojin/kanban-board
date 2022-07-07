@@ -6,17 +6,18 @@ import { useRecoilState } from "recoil";
 import { darkState } from "../atoms";
 
 const Container = styled.div`
+  height: 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: fixed;
-  height: 80px;
   top: 0;
   right: 0;
   left: 0;
 `;
 
 const Logo = styled.div`
+  width:120px;
   color: ${(props)=>props.theme.boardColor};
   display: flex;
   flex-direction: column;
@@ -28,7 +29,13 @@ const Logo = styled.div`
   margin-left: 20px;
 `;
 
+const CreateBoardWrapper = styled.div`
+  left:10px
+`;
+
 const ModeBtn = styled.div`
+  width:120px;
+  text-align: end;
   font-size: 30px;
   color: ${(props)=>props.theme.boardColor};
   margin-right: 20px;
@@ -46,7 +53,9 @@ function Header() {
   return(
     <Container>
       <Logo>kanban<br/>board</Logo>
-      <CreateBoard />
+      <CreateBoardWrapper>
+        <CreateBoard />
+      </CreateBoardWrapper>
       <ModeBtn>
         <FontAwesomeIcon icon={ isDark ? faSun :faMoon} onClick={modeHandler}/>
       </ModeBtn>

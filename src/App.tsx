@@ -1,12 +1,7 @@
-import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
-import { darkState, toDoState } from "./atoms";
-import Board from "./components/Board";
-import CreateBoard from "./components/CreatBoard";
+import { useRecoilValue } from "recoil";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
+import { darkState } from "./atoms";
 import DragnDrop from "./components/DragnDrop";
-import Header from "./components/Header";
-import TrashCan from "./components/TrashCan";
 import { darkTheme, lightTheme } from "./theme";
 
 
@@ -66,9 +61,9 @@ body {
   font-weight: 300;
   font-family: 'Source Sans Pro', sans-serif;
   background-color:${(props) => props.theme.bgColor};
+  background-image:${(props) => props.theme.bgGradient};
   color: black;
   line-height: 1.2;
-  padding-top: 80px;
 }
 html, body{
   height: 100%;

@@ -13,9 +13,13 @@ const Form = styled.form`
     border: solid ${(props)=>props.theme.boardColor} 2px;
     background-color: transparent;
     padding: 0px 10px;
+    color: ${(props)=>props.theme.boardColor};
     ::placeholder{
       color: ${(props)=>props.theme.boardColor};
       text-align: center;
+    }
+    :focus{
+      outline: none;
     }
   }
 `;
